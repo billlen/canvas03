@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+	<title></title>
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+			background-color: #f0f0f0;
+			overflow: hidden;
+		}
+	</style>
+	<script src="bower_components/konva/konva.min.js"></script>
+</head>
+<body>
+	<div id="container">
+	</div>
+
+    <script>
+        var stage = new Konva.Stage({
+            container:'container',
+            width:window.innerWidth,
+            height:window.innerHeight
+        })
+        //创建层
+
+        //中心点坐标
+        var cenX = stage.width()/2;
+        var cenY = stage.height()/2;
+
+        //创建背景层
+        var bgLayer = new Konva.Layer();
+        stage.add(bgLayer);
+
+        //绘制背景
+        var innerRadius =252/2; //内环的半径
+        var outRadius = 220;    // 外环的半径
+
+        // 创建背景内环圆
+        var innerCricle = new Konva.Circle({
+            x:cenX,
+            y:cenY,
+            radius:innerRadius,
+            stroke:'#ccc',
+            strokeWidth:4,
+            dash:[10,4]//设置虚线，10实线， 4像素空
+        })
+
+        bgLayer.add(innerCricle);
+
+
+        var outerCricle = new Konva.Circle({
+            x:cenX,
+            y:cenY,
+            radius:outRadius,
+            stroke:'#ccc',
+            strokeWidth:4,
+            dash:[10,4]//设置虚线，10实线， 4像素空
+        })
+
+        bgLayer.add(outerCricle);
+
+        // 把中心圆形 添加到 层中
+        var cenCirle = new Konva.Circle({
+            x:cenX,
+            y:cenY,
+            radius:132/2,
+            fill:'#525A82'
+        })
+        bgLayer.add(cenCirle);
+
+        // Ring: 圆环的意思。
+        var cenRing = new Konva.Ring({
+            x:cenX,
+            y:cenY,
+            innerRadius:132/2,
+            outerRadius:180/2,
+            fill:"#E1E1E1",
+            opacity:.5
+        });
+
+        bgLayer.add(cenRing);
+
+        // 创建中心圆的文字
+        var cenText = new Konva.Text({
+            x:cenX-180/2,
+            y:cenY-8,
+            width:180,
+            align:'center',
+            text:"web全栈",
+            fontSize:17,
+            fontFamily: '微软雅黑',
+            fontStyle:'bold',
+            fill:'#fff'
+        })
+        bgLayer.add(cenText);
+        bgLayer.draw();
+
+        // 动画层的绘制
+        var animatorLayer = new Konva.Layer();
+        stage.add(animatorLayer);
+
+        //计算圆的圆心坐标
+        var x0 = cenX + innerRadius*Math.cos(-60*Math.PI/180);//x轴长度为为半径*cos(-60C)
+        var y0 = cenY + innerRadius*Math.sin(-60*Math.PI/180);//y轴长度为为半径*sin(-60C)
+
+        var l2_html5_circle = new Konva.Circle({
+            x:x0,
+            y:y0,
+            radius:30,
+            fill:'#FABB48',
+            opacity:.8
+        });
+
+        animatorLayer.add(l2_html5_circle);
+        animatorLayer.draw();
+
+    </script>
+</body>
+</html>
