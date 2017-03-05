@@ -14,23 +14,49 @@
 		}
 	</style>
 	<script src="bower_components/konva/konva.min.js"></script>
+	<script src="js/CakeChart.js"></script>
 </head>
 <body>
 	<div id="container">
 	</div>
 
     <script>
-        var stage = new Konva.Stage({
+		var stage = new Konva.Stage({
 			container:'container',
 			width:window.innerWidth,
 			height:window.innerHeight
-		});
+		})
+
 		//创建层
+		var layer = new Konva.Layer();
+		stage.add(layer);
 
 		//中心点坐标
 		var cenX = stage.width()/2;
 		var cenY = stage.height()/2;
 
-    </script>
+		var data = [
+			{ name: "前端", value: .25, color: '#e0e'  },
+			{ name: "php",  value: .2,  color: 'orange'},
+			{ name: "UI",	value: .3,	color: 'blue'  },
+			{ name: "C++",	value: .05,	color: 'green' },
+			{ name: "游戏",	value: .1,	color: 'purple'},
+			{ name: "Java",	value: .1,	color: 'red'   }
+		];
+
+
+		var cake = new CakeChart({
+			x:cenX,
+			y:cenY,
+			data:data
+		});
+
+		cake.addGroupToLayer(layer);
+		layer.draw();
+
+		cake.animatePie(layer);
+
+
+	</script>
 </body>
 </html>
