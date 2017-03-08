@@ -107,7 +107,6 @@ CakeChart.prototype = {
                 self.animatePie();
             }
         });
-
     },
 
 

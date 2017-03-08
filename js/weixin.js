@@ -9,7 +9,7 @@ var stage = new Konva.Stage({
 //下滑：  让索引-1， 执行sceneBuilders数组中下一个场景的play（）
 
 // 场景的构造器
-var sceneBuilders = [builderHtml5Scene,builderCSS3Scene,builderDemoScene];
+var sceneBuilders = [builderHtml5Scene,builderC3Scene,builderDemoScene];
 
 //当前场景的执行的索引
 var sceneIndex = 0;
@@ -53,7 +53,7 @@ function builderHtml5Scene(){
             });
         },
         post:function(dopre){
-            var self = this,
+            var self = this;
             rect.to({
                 x:-100,
                 y:-100,
@@ -150,11 +150,39 @@ function builderDemoScene(){
 
 //给舞台添加 上滑动，和下滑动的事件
 function addStageEvent(){
+    var startY = 0;
+    var endX = 0;
+    stage.on('contentMousedown contentTouchstart',function(e){
+        if(e.type=='contentMousedown'){
+            startY = e.evt.screenY;
+        }else if(e.type=='contentTouchstart'){
+            // console.log(e.evt.touches[0].screenX + ' ' + e.evt.touches[0].screenY);
+            startY = e.evt.touches[0].screenY;
+        }
+    });
 
-    
+    stage.on('contentMousemove contentTouchmove',function(e){
+        if(e.type=='contentMousemove'){
+            endY = e.evt.screenY;
+        }else if(e.type=='contentTouchmove'){
+            // console.log(e.evt.touches[0].screenX + ' ' + e.evt.touches[0].screenY);
+            endY = e.evt.touches[0].screenY;
+        }
+    });
 
-
-
+    stage.on('contentMouseup contentTouchend',function(e){
+        if(endY > startY){//结束点在开始点下方;
+            //把当前执行场景的索引-1
+            //下滑动 执行上一个场景 的play()
+            sceneIndex = sceneIndex <=0? 0 :sceneIndex -1;//如果是0，保持，如果不是，减1;
+        }else{
+            //执行下一个场景的 play();
+            //把当前执行场景的索引 +1
+            // 0 1 2    1 2   length=3
+            sceneIndex = sceneIndex >=sceneBuilders.length-1? sceneBuilders.length-1 :sceneIndex +1;
+        }
+        sceneBuilders[sceneIndex]().play();
+    });
 }
 
 
